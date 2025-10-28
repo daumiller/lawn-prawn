@@ -162,10 +162,7 @@ void eventLoop() {
 
   sleep_ticks = 15L;
   while(true) {
-    if(!WaitNextEvent(everyEvent, &event, 15L, nil)) {
-      //TEIdle(h_textedit_main);
-      //continue;
-    }
+    WaitNextEvent(everyEvent, &event, 15L, nil);
 
     switch(event.what) {
       case nullEvent       : TEIdle(h_textedit_main);     break;
@@ -346,12 +343,12 @@ void eventMatchUpdate(FSSpec* match) {
   if(match == fs_match) { return; } // nothing new
   fs_match = match;
 
-  if(fs_match == NULL) {
-    if(ir_match != NULL) {
-      ReleaseIconRef(ir_match);
-      ir_match = NULL;
-    }
-  } else {
+  if(ir_match != NULL) {
+    ReleaseIconRef(ir_match);
+    ir_match = NULL;
+  }
+
+  if(fs_match != NULL) {
     int16_t label;
     GetIconRefFromFile(fs_match, &ir_match, &label);
   }
