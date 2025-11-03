@@ -139,7 +139,7 @@ void initWindow() {
   }
 
   // place & size window
-  p_window_main = GetNewWindow(RSRC_WIND_MAIN, NULL, (WindowPtr)-1L);
+  p_window_main = GetNewCWindow(RSRC_WIND_MAIN, NULL, (WindowPtr)-1L);
   SizeWindow(p_window_main, window_width,     window_height,    true);
   MoveWindow(p_window_main, window_padding_x, window_padding_y, true);
 
@@ -350,7 +350,8 @@ void eventMatchUpdate(FSSpec* match) {
 
   if(fs_match != NULL) {
     int16_t label;
-    GetIconRefFromFile(fs_match, &ir_match, &label);
+    OSErr err = GetIconRefFromFile(fs_match, &ir_match, &label);
+    if(err != noErr) { ir_match = NULL; }
   }
 
   redrawWindow();
